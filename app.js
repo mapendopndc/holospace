@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 
 const app = express();
-const port = 8081;
+const port = 8082;
 
 const userRoutes = require('./api/routes/user');
 
