@@ -1,15 +1,7 @@
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-
-aws.config.update({
-    secretAccessKey: process.env.AWS_S3_SECRET,
-    accessKeyId: process.env.AWS_S3_ID,
-    region: 'us-east-2'
-})
-
-
-const s3 = new aws.S3();
+const s3 = require('./aws-config');
 
 const upload = multer({
     storage: multerS3({
@@ -21,7 +13,10 @@ const upload = multer({
         key: function (req, file, cb) {
             cb(null, 'ar-models/' + Date.now() + file.originalname)
         }
-    })
+    }),
+    limits: {
+        fileSize: 1024 * 1024 * 40
+    }
 });
 
 module.exports = upload;

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require('multer');
 const upload = require('../services/file-upload');
+const s3 = require('../services/aws-config');
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ router.post("/", upload.single('arModel'), (req, res, next) => {
     const room = new Room({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        arModel: req.file.location
+        arModelKey: req.file.key
     })
     room
         .save()
@@ -47,6 +47,37 @@ router.post("/", upload.single('arModel'), (req, res, next) => {
                     }
                 }
             })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.get("/arModels/:roomId", (req, res, next) => {
+    const id = req.params.roomId;
+    Room.findById(id)
+        .exec()
+        .then(result => {
+            console.log(result);
+            if (result) {
+
+                const options = {
+                    Bucket: 'holospace-app',
+                    Key: result.arModelKey,
+                };
+            
+                res.status(200).attachment(result.arModelKey);
+                const fileStream = s3.getObject(options).createReadStream();
+                fileStream.pipe(res);
+            } else {
+                res.status(404).json({
+                    message: 'Room not found'
+                })
+            }
+            
         })
         .catch(err => {
             console.log(err);
