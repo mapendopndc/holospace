@@ -1,4 +1,6 @@
 const aws = require('aws-sdk');
+const dotenv = require('dotenv');
+dotenv.config();
 
 aws.config.update({
     secretAccessKey: process.env.AWS_S3_SECRET,

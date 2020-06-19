@@ -5,24 +5,6 @@ const s3 = require('../services/aws-config');
 
 const router = express.Router();
 
-/*
-const storage = multer.diskStorage({
-    destination: function(req, file, callback) {
-        callback(null, './uploads');
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + file.originalname);
-    }
-})
-
- const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 20
-    }
-});
-*/
-
 const Room = require("../models/room");
 
 router.post("/", upload.single('arModel'), (req, res, next) => {
