@@ -8,6 +8,7 @@ const app = express();
 const port = 8082;
 
 const userRoutes = require('./api/routes/user');
+const roomRoutes = require('./api/routes/rooms');
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/user', userRoutes);
+app.use('/rooms', roomRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
