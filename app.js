@@ -21,7 +21,7 @@ mongoose.connect('mongodb+srv://holospace-app:' + process.env.MONGO_ATLAS_PW + '
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-app.use(express.static('models'));
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

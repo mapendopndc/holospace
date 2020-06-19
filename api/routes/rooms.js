@@ -2,14 +2,31 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
-const upload = multer({dest: '/uploads/'});
+
+const storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    }
+})
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 20
+    }
+});
 
 const Room = require("../models/room");
 
-router.post("/", (req, res, next) => {
+router.post("/", upload.single('arModel'), (req, res, next) => {
+    console.log(req.file);
     const room = new Room({
         _id: new mongoose.Types.ObjectId(),
-        name: req.body.name
+        name: req.body.name,
+        arModel: req.file.path
     })
     room
         .save()
