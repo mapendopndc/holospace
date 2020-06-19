@@ -5,12 +5,11 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 
 const app = express();
-const port = 3000;
+const port = 8081;
 
 const userRoutes = require('./api/routes/user');
 
 dotenv.config();
-console.log(process.env.MONGO_ATLAS_PW);
 
 mongoose.connect('mongodb+srv://holospace-app:' + process.env.MONGO_ATLAS_PW + '@holospace-app-nc4b7.mongodb.net/holospace-app?retryWrites=true&w=majority', {
     useNewUrlParser: true,
