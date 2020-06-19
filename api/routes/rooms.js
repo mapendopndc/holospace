@@ -1,8 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const upload = require('../services/file-upload');
 
+const router = express.Router();
+
+/*
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, './uploads');
@@ -12,12 +15,13 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({
+ const upload = multer({
     storage: storage,
     limits: {
         fileSize: 1024 * 1024 * 20
     }
 });
+*/
 
 const Room = require("../models/room");
 
@@ -26,7 +30,7 @@ router.post("/", upload.single('arModel'), (req, res, next) => {
     const room = new Room({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        arModel: req.file.path
+        arModel: req.file.location
     })
     room
         .save()
