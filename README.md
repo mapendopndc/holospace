@@ -23,5 +23,5 @@ Services
 - 
 Each microservice runs serparatly on different ports and Nginx is used both as a virtual host and reverse proxy
 - portfolio: Front end for personal website https://mapendopndc.io
-- holofront: Front end for Holo
+- holofront: Front end for Holo https://holospaceapp.com
 - holospace: Restful API acting as backend for Holo's web and mobile clients 
