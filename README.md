@@ -21,7 +21,7 @@ MERN Stack
 
 Services
 - 
-Each microservice runs serparatly on different ports and Nginx is used both as a virtual host and reverse proxy
+Each microservice runs serparatly on different ports and Nginx is used both as a virtual host and reverse proxy to access these microservices
 - portfolio: Front end for personal website
 - holofront: Front end for Holo
 - holospace: Restful API acting as backend for Holo's web and mobile clients 
