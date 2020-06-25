@@ -138,4 +138,31 @@ router.delete("/:roomId", checkAuth, (req, res, next) => {
         });
 });
 
+// Non-RESTful API route
+// Unity Game Engine does not allow headers in their GET requests, making it impossible to use a private GET route for authentification
+// This POST route allows Unity clients to send headers and recieve authentification information
+// Temporary Fix
+
+router.post("/:roomId", checkAuth, (req, res, next) => {
+    const id = req.params.roomId;
+    Room.findById(id)
+        .exec()
+        .then(result => {
+            console.log(result);
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({
+                    message: 'Room not found'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
 module.exports = router;
