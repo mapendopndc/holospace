@@ -77,7 +77,6 @@ router.get("/:roomId", checkAuth, (req, res, next) => {
     Room.findById(id)
         .exec()
         .then(result => {
-            console.log(result);
             if (result) {
                 res.status(200).json(result);
             } else {
