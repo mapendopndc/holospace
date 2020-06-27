@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const userRooms = require('../middleware/user-rooms');
 
 const User = require('../models/user');
 
@@ -96,6 +97,24 @@ router.post('/login', (req, res, next) => {
             });
         });
 });
+
+router.get("/:userId", userRooms, (req, res, next) => {
+    const id = req.params.userId;
+    User.findById(id)
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                userInfo: result,
+                userRooms: req.userRooms
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+})
 
 router.delete("/:userId", (req, res, next) => {
     User.deleteOne({ _id: req.params.userId })
