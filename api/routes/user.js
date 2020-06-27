@@ -98,6 +98,24 @@ router.post('/login', (req, res, next) => {
         });
 });
 
+// Not self-evident routes, must revisit
+
+router.get("/", (req, res, next) => {
+    User.findOne({ email: req.body.email})
+        .exec()
+        .then(user => {
+            res.status(200).json({
+                userId: user.id
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                message: "User not found"
+            });
+        });
+})
+
 router.get("/:userId", userRooms, (req, res, next) => {
     const id = req.params.userId;
     User.findById(id)
