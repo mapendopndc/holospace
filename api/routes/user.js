@@ -98,8 +98,6 @@ router.post('/login', (req, res, next) => {
         });
 });
 
-// Not self-evident routes, must revisit
-
 router.get("/", (req, res, next) => {
     User.findOne({ email: req.body.email})
         .exec()
