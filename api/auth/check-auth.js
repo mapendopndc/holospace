@@ -22,19 +22,23 @@ module.exports = (req, res, next) => {
         req.userData = decoded;
 
         const id = req.params.roomId;
+        let foundId = false;
 
         if (id) {
             Room.findById(id)
                 .exec()
                 .then(result => {
                     for (const allowedIds of result.users) {
-                        if (allowedIds != decoded.userId) {
-                            res.status(401).json({
-                                error: "Not Authorized"
-                            });
-                        } else {
-                            next();
+                        if (allowedIds == decoded.userId) {
+                            foundId = true;
                         }
+                    }
+                    if (foundId) {
+                        next()
+                    } else {
+                        res.status(401).json({
+                            error: "Not Authorized"
+                        });
                     }
                 })
                 .catch(err => {

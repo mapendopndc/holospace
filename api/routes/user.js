@@ -98,8 +98,8 @@ router.post('/login', (req, res, next) => {
         });
 });
 
-router.get("/", (req, res, next) => {
-    User.findOne({ email: req.body.email})
+router.get("/id/:email", (req, res, next) => {
+    User.findOne({ email: req.params.email})
         .exec()
         .then(user => {
             res.status(200).json({
